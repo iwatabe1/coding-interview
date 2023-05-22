@@ -255,13 +255,36 @@ function isPrime(n) {
     return true;
 }
 async function main() {
-    let ans = '';
-    let x = 'Temia 295# 29m';
-    ans = replaceBlank(x);
-    function replaceBlank(t) {
-        t = t.replaceAll(' ', '%20');
-        return t;
+    let [x, y] = nexts(2);
+    let ans;
+    ans = permutation(x, y);
+    function permutation(t, s) {
+        // length is not match
+        if (t.length !== s.length)
+            return false;
+        // mapで存在する文字の個数を数える
+        let mapT = new Map();
+        for (let i = 0; i < t.length; ++i) {
+            let str = mapT.get(t[i]);
+            if (!str) {
+                mapT.set(t[i], 1);
+            }
+            else {
+                mapT.set(t[i], ++str);
+            }
+        }
+        // s文字列の文字が存在しないか、減算して0以下になった場合は違うと判定する
+        for (let i = 0; i < s.length; ++i) {
+            let str = mapT.get(s[i]);
+            if (!str || str < 0) {
+                return false;
+            }
+            else {
+                mapT.set(s[i], --str);
+            }
+        }
+        return true;
     }
-    print(ans);
+    print(ans ? 'true' : 'false');
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=1.2.js.map
